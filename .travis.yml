@@ -9,13 +9,13 @@ script:
   - docker run tomdevacc/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t tomdevacc/multi-client ./client
-  - docker build -t tomdevacc/mutli-nginx ./nginx
-  - docker build -t tomdevacc/mutli-server ./server
-  - docker build -t tomdevacc/mutli-worker ./worker
+  - docker build -t tomdevacc/multi-client:latest ./client
+  - docker build -t tomdevacc/mutli-nginx:latest ./nginx
+  - docker build -t tomdevacc/mutli-server:latest ./server
+  - docker build -t tomdevacc/mutli-worker:latest ./worker
 # Login to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  #- docker push tomdevacc/multi-client
-  - docker push tomdevacc/multi-nginx
-  - docker push tomdevacc/multi-server
-  - docker push tomdevacc/multi-worker
+  - docker push tomdevacc/multi-client:latest
+  - docker push tomdevacc/multi-nginx:latest
+  - docker push tomdevacc/multi-server:latest
+  - docker push tomdevacc/multi-worker:latest
