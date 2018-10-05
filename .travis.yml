@@ -1,0 +1,21 @@
+sudo: required
+services:
+  -docker
+
+before_install:
+  - docker build -t tomdevacc/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run tomdevacc/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t tomdevacc/multi-client ./client
+  - docker build -t tomdevacc/mutli-nginx ./nginx
+  - docker build -t tomdevacc/mutli-server ./server
+  - docker build -t tomdevacc/mutli-worker ./worker
+# Login to docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push tomdevacc/multi-client
+  - docker push tomdevacc/multi-nginx
+  - docker push tomdevacc/multi-server
+  - docker push tomdevacc/multi-worker
